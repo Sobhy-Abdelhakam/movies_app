@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/foundation.dart';
+
 class MovieItem {
   int id;
   String backdropPath;
@@ -6,7 +8,7 @@ class MovieItem {
   String originalTitle;
   String overview;
   String posterPath;
-  DateTime releaseDate;
+  String releaseDate;
   String title;
   String contentType;
   MovieItem({
@@ -20,4 +22,18 @@ class MovieItem {
     required this.title,
     required this.contentType,
   });
+
+  factory MovieItem.fromJson(Map<String, dynamic> json) {
+    return MovieItem(
+      id: json['_id'],
+      backdropPath: json['backdrop_path'],
+      genres: List<String>.from(json['genres']),
+      originalTitle: json['original_title'],
+      overview: json['overview'],
+      posterPath: json['poster_path'],
+      releaseDate: json['release_date'],
+      title: json['title'],
+      contentType: json['contentType'],
+    );
+  }
 }
