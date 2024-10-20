@@ -8,4 +8,11 @@ class HomeResponse {
     required this.title,
     required this.movies,
   });
+  factory HomeResponse.fromJson(Map<String, dynamic> json) {
+    return HomeResponse(
+      title: json['title'],
+      movies:
+          (json['movies'] as List).map((i) => MovieInHome.fromJson(i)).toList(),
+    );
+  }
 }

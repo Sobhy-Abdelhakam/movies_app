@@ -8,7 +8,7 @@ class MovieInHome {
   String originalTitle;
   String overview;
   String posterPath;
-  DateTime? releaseDate;
+  String? releaseDate;
   String title;
   String contentType;
   DateTime? firstAired;
@@ -24,5 +24,18 @@ class MovieInHome {
     required this.contentType,
     this.firstAired,
   });
-
+  factory MovieInHome.fromJson(Map<String, dynamic> json) {
+    return MovieInHome(
+        id: json['_id'],
+        backdropPath: json['backdrop_path'],
+        genres: List<Genre>.from(json['genres']),
+        originalTitle: json['original_title'],
+        overview: json['overview'],
+        posterPath: json['poster_path'],
+        releaseDate: json['release_date'],
+        title: json['title'],
+        contentType: json['contentType'],
+        firstAired: json['first_aired']
+        );
+  }
 }

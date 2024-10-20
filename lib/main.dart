@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
@@ -39,20 +40,11 @@ class MyHomePage extends StatefulWidget {
   final String title;
   final Future<MoviesResponse> movies;
 
-  // var movies = [];
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,10 +56,57 @@ class _MyHomePageState extends State<MyHomePage> {
             future: widget.movies,
             builder: (context, snapshot) {
               final moviesList = snapshot.data?.movies ?? [];
-              return ListView.builder(
+              return GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 2 / 3,
+                ),
                 itemCount: moviesList.length,
                 itemBuilder: (context, index) {
-                  return Text(moviesList[index].title);
+                  final movie = moviesList[index];
+                  return Container(
+                    margin: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(4),
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(4)),
+                    child: GridTile(
+                      footer: Container(
+                        color: Colors.black38,
+                        alignment: Alignment.bottomCenter,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 5,
+                          vertical: 10,
+                        ),
+                        child: Text(
+                          movie.originalTitle,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      child: Image.network(
+                        movie.posterPath,
+                        fit: BoxFit.cover,
+                        loadingBuilder: (context, child, loading) {
+                          if (loading == null) return child;
+                          return Center(
+                            child: CircularProgressIndicator(
+                              value: loading.expectedTotalBytes != null
+                                  ? loading.cumulativeBytesLoaded /
+                                      loading.expectedTotalBytes!
+                                  : null,
+                            ),
+                          );
+                        },
+                        errorBuilder: (context, exception, stacktrace) {
+                          return const Center(child: Text('🥲'));
+                        },
+                      ),
+                    ),
+                  );
                 },
               );
             }));
