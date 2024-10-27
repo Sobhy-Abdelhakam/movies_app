@@ -5,7 +5,7 @@ class HomeUsecase {
   final Repository repository;
   HomeUsecase(this.repository);
 
-  Future<HomeResponse> call() {
+  Future<List<HomeResponse>> call() {
     return repository.getCategoriesAndMovies();
   }
 }

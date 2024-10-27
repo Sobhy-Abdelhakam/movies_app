@@ -10,9 +10,10 @@ class RepositoryImpl extends Repository {
   RepositoryImpl(this._apiClient);
 
   @override
-  Future<HomeResponse> getCategoriesAndMovies() {
-    // TODO: implement getCategoriesAndMovies
-    throw UnimplementedError();
+  Future<List<HomeResponse>> getCategoriesAndMovies() async {
+    final response = await _apiClient.getHome();
+    return response.data!.map((home) => HomeResponse.fromJson(home)).toList();
+    // return HomeResponse.fromJson(response.data);
   }
 
   @override

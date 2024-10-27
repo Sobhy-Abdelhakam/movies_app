@@ -4,14 +4,14 @@ import '../genre.dart';
 class MovieInHome {
   int id;
   String backdropPath;
-  List<Genre> genres;
+  List<String> genres;
   String originalTitle;
   String overview;
   String posterPath;
   String? releaseDate;
   String title;
   String contentType;
-  DateTime? firstAired;
+  String? firstAired;
   MovieInHome({
     required this.id,
     required this.backdropPath,
@@ -28,7 +28,7 @@ class MovieInHome {
     return MovieInHome(
         id: json['_id'],
         backdropPath: json['backdrop_path'],
-        genres: List<Genre>.from(json['genres']),
+        genres: List<String>.from(json['genres']),
         originalTitle: json['original_title'],
         overview: json['overview'],
         posterPath: json['poster_path'],

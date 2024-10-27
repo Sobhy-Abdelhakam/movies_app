@@ -35,7 +35,7 @@ class ApiClient {
   Future<Response> getMovies(){
     return _dio.get('movies');
   }
-  Future<Response> getHome(){
+  Future<Response<List>> getHome(){
     return _dio.get('home');
   }
 }
