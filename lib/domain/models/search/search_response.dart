@@ -8,4 +8,9 @@ class SearchResponse {
     required this.query,
     required this.contents,
   });
+
+  factory SearchResponse.fromJson(Map<String, dynamic> json) => SearchResponse(
+        query: json["query"],
+        contents: List<MovieInSearch>.from(json["contents"].map((x) => MovieInSearch.fromJson(x))),
+    );
 }

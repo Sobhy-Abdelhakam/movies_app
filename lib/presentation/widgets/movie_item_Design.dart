@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/domain/models/movies_list/movie_item.dart';
 
 class MovieItemDesign extends StatelessWidget {
-  final MovieItem movie;
-  const MovieItemDesign({super.key, required this.movie});
+  final String movieTitle;
+  final String moviePoster;
+  const MovieItemDesign({super.key, required this.movieTitle, required this.moviePoster});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class MovieItemDesign extends StatelessWidget {
             vertical: 10,
           ),
           child: Text(
-            movie.originalTitle,
+            movieTitle,
             style: const TextStyle(
               color: Colors.white,
               fontSize: 16,
@@ -30,7 +30,7 @@ class MovieItemDesign extends StatelessWidget {
           ),
         ),
         child: Image.network(
-          movie.posterPath,
+          moviePoster,
           fit: BoxFit.cover,
           loadingBuilder: (context, child, loading) {
             if (loading == null) return child;

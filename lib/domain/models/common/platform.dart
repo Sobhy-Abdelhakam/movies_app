@@ -9,4 +9,11 @@ class Platform {
     this.ios,
     this.web,
   });
+
+  factory Platform.fromJson(Map<String, dynamic> json) => Platform(
+        android: json["android"],
+        androidTv: json["android_tv"],
+        ios: json["ios"],
+        web: json["web"],
+    );
 }

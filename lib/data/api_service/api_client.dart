@@ -13,17 +13,17 @@ class ApiClient {
       },
     );
     InterceptorsWrapper interceptor = InterceptorsWrapper(
-      onRequest: (options, handler){
+      onRequest: (options, handler) {
         debugPrint('Request: ${options.method} ${options.path}');
         debugPrint('Headers: ${options.headers}');
         debugPrint('Query Params: ${options.queryParameters}');
         handler.next(options);
       },
-      onResponse: (response, handler){
+      onResponse: (response, handler) {
         debugPrint('Response: ${response.statusCode} ${response.data}');
         handler.next(response);
       },
-      onError: (error, handler){
+      onError: (error, handler) {
         debugPrint('Error: ${error.message}');
         handler.next(error);
       },
@@ -32,10 +32,14 @@ class ApiClient {
     _dio.interceptors.add(interceptor);
   }
 
-  Future<Response> getMovies(){
-    return _dio.get('movies');
-  }
-  Future<Response<List>> getHome(){
-    return _dio.get('home');
+  Future<Response> getMovies() => _dio.get('movies');
+
+  Future<Response<List>> getHome() => _dio.get('home');
+
+  Future<Response> getSearchResponse(String query) { 
+    return _dio.get(
+        'search',
+        queryParameters: {'query': query},
+      );
   }
 }

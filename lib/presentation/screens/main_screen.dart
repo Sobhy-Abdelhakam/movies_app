@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/data/api_service/api_client.dart';
-import 'package:movies_app/data/repositories_impl/repository_impl.dart';
 import 'package:movies_app/domain/models/home_models/home_response.dart';
-import 'package:movies_app/domain/usecases/home_usecase.dart';
+import 'package:movies_app/presentation/widgets/movie_item_Design.dart';
 
 class MainScreen extends StatefulWidget {
   final Future<List<HomeResponse>>? homeData;
@@ -63,48 +61,11 @@ class _MainScreenState extends State<MainScreen> {
                       itemCount: mainResponseItem.movies.length,
                       itemBuilder: (context, index) {
                         var movie = mainResponseItem.movies[index];
-                        return Container(
-                          width: 120, // Set a fixed width for each movie item
-                          margin: const EdgeInsets.all(8),
-                          padding: const EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4)),
-                          child: GridTile(
-                            footer: Container(
-                              color: Colors.black38,
-                              alignment: Alignment.bottomCenter,
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 5,
-                                vertical: 10,
-                              ),
-                              child: Text(
-                                movie.originalTitle,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                            child: Image.network(
-                              movie.posterPath,
-                              fit: BoxFit.cover,
-                              loadingBuilder: (context, child, loading) {
-                                if (loading == null) return child;
-                                return Center(
-                                  child: CircularProgressIndicator(
-                                    value: loading.expectedTotalBytes != null
-                                        ? loading.cumulativeBytesLoaded /
-                                            loading.expectedTotalBytes!
-                                        : null,
-                                  ),
-                                );
-                              },
-                              errorBuilder: (context, exception, stacktrace) {
-                                return const Center(child: Text('🥲'));
-                              },
-                            ),
+                        return SizedBox(
+                          width: 120,
+                          child: MovieItemDesign(
+                            movieTitle: movie.originalTitle,
+                            moviePoster: movie.posterPath,
                           ),
                         );
                       },

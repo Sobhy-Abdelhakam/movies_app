@@ -32,4 +32,21 @@ class MovieInSearch {
     required this.contentType,
     this.firstAired,
   });
+
+  factory MovieInSearch.fromJson(Map<String, dynamic> json) => MovieInSearch(
+        id: json["_id"],
+        backdropPath: json["backdrop_path"],
+        genres: List<String>.from(json["genres"].map((x) => x)),
+        originalTitle: json["original_title"],
+        overview: json["overview"],
+        posterPath: json["poster_path"],
+        releaseDate: json["release_date"] == null ? null : DateTime.parse(json["release_date"]),
+        title: json["title"],
+        voteAverage: json["vote_average"]?.toDouble(),
+        voteCount: json["vote_count"],
+        youtubeTrailer: json["youtube_trailer"],
+        sources: List<Source>.from(json["sources"].map((x) => Source.fromJson(x))),
+        contentType: json["contentType"],
+        firstAired: json["first_aired"] == null ? null : DateTime.parse(json["first_aired"]),
+    );
 }
