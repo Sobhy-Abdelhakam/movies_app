@@ -19,7 +19,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   void _onSearchChange(String query) {
     setState(() {
-      movies = searchUsecase.call(query);
+      movies = query.isNotEmpty ? searchUsecase.call(query) : null;
     });
   }
 
@@ -31,45 +31,62 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        TextFormField(
-          controller: searchController,
-          onChanged: _onSearchChange,
-          decoration: const InputDecoration(hintText: 'Search'),
-        ),
-        Expanded(
-          child: FutureBuilder(
-            future: movies,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasError) {
-                return const Center(child: Text('Error fetching movies'));
-              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return const Center(child: Text('No movies found'));
-              }
-
-              final moviesList = snapshot.data!;
-              return GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 2 / 3,
-                ),
-                itemCount: moviesList.length,
-                itemBuilder: (context, index) {
-                  final movie = moviesList[index];
-                  return MovieItemDesign(
-                    movieTitle: movie.originalTitle,
-                    moviePoster: movie.posterPath,
-                  );
-                },
-              );
-            },
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          TextField(
+            controller: searchController,
+            onChanged: _onSearchChange,
+            decoration: InputDecoration(
+              hintText: 'Search',
+              border: const OutlineInputBorder(),
+              prefixIcon: const Icon(Icons.search),
+              suffixIcon: searchController.text.isNotEmpty
+                  ? IconButton(
+                      onPressed: () {
+                        setState(() {
+                          searchController.clear();
+                        });
+                      },
+                      icon: const Icon(Icons.clear),
+                    )
+                  : null,
+            ),
           ),
-        )
-      ],
+          Expanded(
+            child: FutureBuilder(
+              future: movies,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return const Center(child: Text('Error fetching movies'));
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(child: Text('No movies found'));
+                }
+
+                final moviesList = snapshot.data!;
+                return GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 2 / 3,
+                  ),
+                  itemCount: moviesList.length,
+                  itemBuilder: (context, index) {
+                    final movie = moviesList[index];
+                    return MovieItemDesign(
+                      movieTitle: movie.originalTitle,
+                      moviePoster: movie.posterPath,
+                    );
+                  },
+                );
+              },
+            ),
+          )
+        ],
+      ),
     );
   }
 }
