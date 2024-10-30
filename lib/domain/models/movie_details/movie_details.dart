@@ -8,7 +8,7 @@ class MovieDetails {
   String originalTitle;
   String overview;
   String posterPath;
-  DateTime releaseDate;
+  String releaseDate;
   String title;
   double voteAverage;
   int voteCount;
@@ -29,4 +29,18 @@ class MovieDetails {
     required this.sources,
   });
 
+  factory MovieDetails.fromJson(Map<String, dynamic> json) => MovieDetails(
+        id: json["_id"],
+        backdropPath: json["backdrop_path"],
+        genres: List<String>.from(json["genres"].map((x) => x)),
+        originalTitle: json["original_title"],
+        overview: json["overview"],
+        posterPath: json["poster_path"],
+        releaseDate: json["release_date"],
+        title: json["title"],
+        voteAverage: json["vote_average"]?.toDouble(),
+        voteCount: json["vote_count"],
+        youtubeTrailer: json["youtube_trailer"],
+        sources: List<Source>.from(json["sources"].map((x) => Source.fromJson(x))),
+    );
 }

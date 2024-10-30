@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:movies_app/domain/models/movies_list/movies_response.dart';
+import 'package:movies_app/presentation/screens/details_screen.dart';
 import 'package:movies_app/presentation/widgets/movie_item_Design.dart';
 
 class MoviesListScreen extends StatefulWidget {
@@ -48,9 +49,19 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
             itemCount: moviesList.length,
             itemBuilder: (context, index) {
               final movie = moviesList[index];
-              return MovieItemDesign(
-                movieTitle: movie.originalTitle,
-                moviePoster: movie.posterPath,
+              return InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DetailsScreen(movieId: movie.id),
+                    ),
+                  );
+                },
+                child: MovieItemDesign(
+                  movieTitle: movie.originalTitle,
+                  moviePoster: movie.posterPath,
+                ),
               );
             },
           );

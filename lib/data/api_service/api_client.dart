@@ -42,4 +42,5 @@ class ApiClient {
         queryParameters: {'query': query},
       );
   }
+  Future<Response> getMovieDetails(int movieId) => _dio.get('movie/$movieId');
 }

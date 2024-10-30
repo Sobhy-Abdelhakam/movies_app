@@ -17,9 +17,9 @@ class RepositoryImpl extends Repository {
   }
 
   @override
-  Future<MovieResponse> getMovieDetails(int id) {
-    // TODO: implement getMovieDetails
-    throw UnimplementedError();
+  Future<MovieResponse> getMovieDetails(int id) async{
+    final response = await _apiClient.getMovieDetails(id);
+    return MovieResponse.fromJson(response.data);
   }
 
   @override
