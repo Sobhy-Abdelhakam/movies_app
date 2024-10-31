@@ -6,8 +6,8 @@ class ApiClient {
   ApiClient() {
     BaseOptions options = BaseOptions(
       baseUrl: 'https://movies-api14.p.rapidapi.com/',
-      connectTimeout: const Duration(seconds: 5),
-      receiveTimeout: const Duration(seconds: 3),
+      connectTimeout: const Duration(seconds: 10),
+      receiveTimeout: const Duration(seconds: 10),
       headers: {
         'x-rapidapi-key': '2bdbd45160msh58a2783e00c08d7p100e4bjsn90702fb8a69d',
       },
