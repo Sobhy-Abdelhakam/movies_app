@@ -1,9 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class MovieItemDesign extends StatelessWidget {
   final String movieTitle;
   final String moviePoster;
-  const MovieItemDesign({super.key, required this.movieTitle, required this.moviePoster});
+  const MovieItemDesign(
+      {super.key, required this.movieTitle, required this.moviePoster});
 
   @override
   Widget build(BuildContext context) {
@@ -29,23 +31,14 @@ class MovieItemDesign extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
         ),
-        child: Image.network(
-          moviePoster,
+        child: CachedNetworkImage(
+          imageUrl: moviePoster,
           fit: BoxFit.cover,
-          loadingBuilder: (context, child, loading) {
-            if (loading == null) return child;
-            return Center(
-              child: CircularProgressIndicator(
-                value: loading.expectedTotalBytes != null
-                    ? loading.cumulativeBytesLoaded /
-                        loading.expectedTotalBytes!
-                    : null,
-              ),
-            );
-          },
-          errorBuilder: (context, exception, stacktrace) {
-            return const Center(child: Text('🥲'));
-          },
+          progressIndicatorBuilder: (context, url, downloadProgress) => Center(
+              child:
+                  CircularProgressIndicator(value: downloadProgress.progress)),
+          errorWidget: (context, url, error) =>
+              const Center(child: Icon(Icons.error)),
         ),
       ),
     );

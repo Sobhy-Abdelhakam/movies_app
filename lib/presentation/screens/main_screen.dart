@@ -13,14 +13,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  // final HomeUsecase mainUsecase = HomeUsecase(RepositoryImpl(ApiClient()));
-  // Future<List<HomeResponse>>? home;
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   home = mainUsecase.call();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(

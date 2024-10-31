@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_app/data/api_service/api_client.dart';
 import 'package:movies_app/data/repositories_impl/repository_impl.dart';
@@ -61,17 +62,25 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   expandedHeight: 500,
                   pinned: true,
                   flexibleSpace: FlexibleSpaceBar(
-                    title: Text(
-                      details.originalTitle,
-                      style: const TextStyle(
-                        color: Colors.white,
+                      title: Text(
+                        details.originalTitle,
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                    background: Image.network(
-                      details.backdropPath,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                      background: CachedNetworkImage(
+                        imageUrl: details.backdropPath,
+                        fit: BoxFit.cover,
+                        progressIndicatorBuilder: (context, url, progress) =>
+                            Center(
+                          child: CircularProgressIndicator(
+                            value: progress.progress,
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => const Center(
+                          child: Icon(Icons.error_outline),
+                        ),
+                      )),
                 ),
                 SliverList(
                   delegate: SliverChildListDelegate(

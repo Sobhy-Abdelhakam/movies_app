@@ -45,7 +45,7 @@ class _MainAppState extends State<MainApp> {
       MoviesListScreen(
         movies: movies,
       ),
-      SearchScreen(),
+      const SearchScreen(),
     ];
     return Scaffold(
       appBar: AppBar(
