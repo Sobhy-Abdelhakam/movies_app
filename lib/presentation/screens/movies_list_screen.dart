@@ -1,7 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movies_app/domain/business_logic/cubit/app_cubit.dart';
+import 'package:movies_app/domain/business_logic/cubit/movies_list_cubit.dart';
+import 'package:movies_app/domain/business_logic/cubit/movies_list_state.dart';
 import 'package:movies_app/presentation/screens/details_screen.dart';
 import 'package:movies_app/presentation/widgets/movie_item_Design.dart';
 
@@ -10,9 +11,8 @@ class MoviesListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AppCubit, AppState>(
+    return BlocBuilder<MoviesListCubit, MoviesListState>(
       builder: (context, state) {
-        AppCubit cubit = AppCubit.get(context);
         if (state is MoviesListLoading) {
           return const Center(
             child: CircularProgressIndicator(),
@@ -21,32 +21,34 @@ class MoviesListScreen extends StatelessWidget {
           return Center(
             child: Text(state.error),
           );
+        } else if (state is MoviesListLoaded) {
+          final moviesList = state.moviesResponse.movies;
+          return GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 2 / 3,
+            ),
+            itemCount: moviesList.length,
+            itemBuilder: (context, index) {
+              final movie = moviesList[index];
+              return InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DetailsScreen(movieId: movie.id),
+                    ),
+                  );
+                },
+                child: MovieItemDesign(
+                  movieTitle: movie.originalTitle,
+                  moviePoster: movie.posterPath,
+                ),
+              );
+            },
+          );
         }
-        final moviesList = cubit.moviesResponse!.movies;
-        return GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 2 / 3,
-          ),
-          itemCount: moviesList.length,
-          itemBuilder: (context, index) {
-            final movie = moviesList[index];
-            return InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => DetailsScreen(movieId: movie.id),
-                  ),
-                );
-              },
-              child: MovieItemDesign(
-                movieTitle: movie.originalTitle,
-                moviePoster: movie.posterPath,
-              ),
-            );
-          },
-        );
+        return const SizedBox();
       },
     );
   }

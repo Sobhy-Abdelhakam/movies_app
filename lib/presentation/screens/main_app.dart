@@ -23,21 +23,20 @@ class _MainAppState extends State<MainApp> {
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: cubit.selectedIndex,
             onTap: cubit.onItemTapped,
-            items: cubit.bottomItems,
-            // const [
-            //   BottomNavigationBarItem(
-            //     icon: Icon(Icons.home_outlined),
-            //     label: 'Home',
-            //   ),
-            //   BottomNavigationBarItem(
-            //     icon: Icon(Icons.movie_creation_outlined),
-            //     label: 'Movies',
-            //   ),
-            //   BottomNavigationBarItem(
-            //     icon: Icon(Icons.search),
-            //     label: 'Search',
-            //   ),
-            // ],
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home_outlined),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.movie_creation_outlined),
+                label: 'Movies',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.search),
+                label: 'Search',
+              ),
+            ],
           ),
         );
       },
