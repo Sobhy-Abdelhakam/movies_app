@@ -4,6 +4,7 @@ import 'package:movies_app/data/repositories_impl/repository_impl.dart';
 import 'package:movies_app/domain/models/movie_details/Movie_response.dart';
 import 'package:movies_app/domain/usecases/movie_details_usecase.dart';
 import 'package:movies_app/presentation/widgets/movie_item_Design.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class DetailsScreen extends StatefulWidget {
   final int movieId;
@@ -17,15 +18,26 @@ class _DetailsScreenState extends State<DetailsScreen> {
   final MovieDetailsUsecase _detailsUsecase =
       MovieDetailsUsecase(RepositoryImpl(ApiClient()));
   Future<MovieResponse>? movie;
-  List geners = [
-    "Action & Adventure",
-    "Comedy",
-    "Romance",
-  ];
+  late YoutubePlayerController _youtubeController;
   @override
   void initState() {
     super.initState();
     movie = _detailsUsecase.call(widget.movieId);
+    movie?.then(
+      (movieResponse) {
+        final movieUrl = movieResponse.movie.youtubeTrailer;
+        final videoId = YoutubePlayer.convertUrlToId(movieUrl);
+        if (videoId != null) {
+          _youtubeController = YoutubePlayerController(
+            initialVideoId: videoId,
+            flags: const YoutubePlayerFlags(
+              autoPlay: false,
+              mute: false,
+            ),
+          );
+        }
+      },
+    );
   }
 
   @override
@@ -83,20 +95,25 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 )
                               ],
                             ),
-                            Text(details.releaseDate),
-                            Row(children: [
-                              ...details.genres.map(
-                                (item) => Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Text(
-                                    item,
-                                    style: const TextStyle(
-                                      backgroundColor: Colors.amber,
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(details.releaseDate),
+                            ),
+                            Wrap(
+                              children: [
+                                ...details.genres.map(
+                                  (item) => Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Text(
+                                      item,
+                                      style: const TextStyle(
+                                        backgroundColor: Colors.amber,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ]),
+                              ],
+                            ),
                             const Text(
                               'Description',
                               style: TextStyle(
@@ -105,7 +122,27 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 decoration: TextDecoration.underline,
                               ),
                             ),
-                            Text(details.overview),
+                            Text(
+                              details.overview,
+                              textAlign: TextAlign.justify,
+                            ),
+                            const Text(
+                              'Youtube trailer',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                            YoutubePlayer(
+                              controller: _youtubeController,
+                              showVideoProgressIndicator: true,
+                              progressIndicatorColor: Colors.amber,
+                              progressColors: const ProgressBarColors(
+                                playedColor: Colors.amber,
+                                handleColor: Colors.amberAccent,
+                              ),
+                            ),
                             const Text(
                               'Similar Movies',
                               style: TextStyle(
