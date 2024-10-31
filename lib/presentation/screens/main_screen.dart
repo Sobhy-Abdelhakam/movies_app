@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:movies_app/domain/models/home_models/home_response.dart';
 import 'package:movies_app/presentation/widgets/movie_item_Design.dart';
 
+import 'details_screen.dart';
+
 class MainScreen extends StatefulWidget {
   final Future<List<HomeResponse>>? homeData;
   const MainScreen({super.key, required this.homeData});
@@ -63,9 +65,20 @@ class _MainScreenState extends State<MainScreen> {
                         var movie = mainResponseItem.movies[index];
                         return SizedBox(
                           width: 120,
-                          child: MovieItemDesign(
-                            movieTitle: movie.originalTitle,
-                            moviePoster: movie.posterPath,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      DetailsScreen(movieId: movie.id),
+                                ),
+                              );
+                            },
+                            child: MovieItemDesign(
+                              movieTitle: movie.originalTitle,
+                              moviePoster: movie.posterPath,
+                            ),
                           ),
                         );
                       },

@@ -162,9 +162,20 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               itemCount: similar.length,
                               itemBuilder: (context, index) {
                                 final similarItem = similar[index];
-                                return MovieItemDesign(
-                                  movieTitle: similarItem.originalTitle,
-                                  moviePoster: similarItem.posterPath,
+                                return InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => DetailsScreen(
+                                            movieId: similarItem.id),
+                                      ),
+                                    );
+                                  },
+                                  child: MovieItemDesign(
+                                    movieTitle: similarItem.originalTitle,
+                                    moviePoster: similarItem.posterPath,
+                                  ),
                                 );
                               },
                             ),

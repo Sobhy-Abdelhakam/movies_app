@@ -5,6 +5,8 @@ import 'package:movies_app/domain/models/search/movie_in_search.dart';
 import 'package:movies_app/domain/usecases/search_usecase.dart';
 import 'package:movies_app/presentation/widgets/movie_item_Design.dart';
 
+import 'details_screen.dart';
+
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
 
@@ -76,9 +78,20 @@ class _SearchScreenState extends State<SearchScreen> {
                   itemCount: moviesList.length,
                   itemBuilder: (context, index) {
                     final movie = moviesList[index];
-                    return MovieItemDesign(
-                      movieTitle: movie.originalTitle,
-                      moviePoster: movie.posterPath,
+                    return InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                DetailsScreen(movieId: movie.id),
+                          ),
+                        );
+                      },
+                      child: MovieItemDesign(
+                        movieTitle: movie.originalTitle,
+                        moviePoster: movie.posterPath,
+                      ),
                     );
                   },
                 );
