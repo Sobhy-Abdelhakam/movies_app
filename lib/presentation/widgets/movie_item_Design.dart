@@ -39,6 +39,8 @@ class MovieItemDesign extends StatelessWidget {
                   CircularProgressIndicator(value: downloadProgress.progress)),
           errorWidget: (context, url, error) =>
               const Center(child: Icon(Icons.error)),
+          memCacheWidth: 336,
+          memCacheHeight: 616,
         ),
       ),
     );

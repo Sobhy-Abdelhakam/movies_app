@@ -80,6 +80,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         errorWidget: (context, url, error) => const Center(
                           child: Icon(Icons.error_outline),
                         ),
+                        memCacheWidth: 1080,
                       )),
                 ),
                 SliverList(
@@ -146,10 +147,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             YoutubePlayer(
                               controller: _youtubeController,
                               showVideoProgressIndicator: true,
-                              progressIndicatorColor: Colors.amber,
+                              progressIndicatorColor: Colors.red,
                               progressColors: const ProgressBarColors(
-                                playedColor: Colors.amber,
-                                handleColor: Colors.amberAccent,
+                                playedColor: Colors.red,
+                                handleColor: Colors.red,
                               ),
                             ),
                             const Text(
