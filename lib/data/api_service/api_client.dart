@@ -6,8 +6,8 @@ class ApiClient {
   ApiClient() {
     BaseOptions options = BaseOptions(
       baseUrl: 'https://movies-api14.p.rapidapi.com/',
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 10),
+      connectTimeout: const Duration(seconds: 5),
+      receiveTimeout: const Duration(seconds: 5),
       headers: {
         'x-rapidapi-key': '2bdbd45160msh58a2783e00c08d7p100e4bjsn90702fb8a69d',
       },
@@ -17,15 +17,27 @@ class ApiClient {
         debugPrint('Request: ${options.method} ${options.path}');
         debugPrint('Headers: ${options.headers}');
         debugPrint('Query Params: ${options.queryParameters}');
-        handler.next(options);
+        return handler.next(options);
       },
       onResponse: (response, handler) {
         debugPrint('Response: ${response.statusCode} ${response.data}');
-        handler.next(response);
+        return handler.next(response);
       },
-      onError: (error, handler) {
+      onError: (error, handler) async{
         debugPrint('Error: ${error.message}');
-        handler.next(error);
+        int retryCount = 0;
+        int maxRetries = 3;
+        while(retryCount < maxRetries && error.type == DioExceptionType.connectionTimeout) {
+          retryCount++;
+          try {
+            print('Connection timeout, retrying...');
+            final res = await _dio.request(error.requestOptions.path);
+            return handler.resolve(res);
+          } catch (e) {
+            print(e.toString());
+          }
+        }
+        return handler.next(error);
       },
     );
     _dio = Dio(options);
