@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/data/api_service/api_client.dart';
 import 'package:movies_app/data/repositories_impl/repository_impl.dart';
 import 'package:movies_app/domain/models/movie_details/Movie_response.dart';
@@ -59,7 +60,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
             return CustomScrollView(
               slivers: [
                 SliverAppBar(
-                  expandedHeight: 500,
+                  expandedHeight: 500.h,
                   pinned: true,
                   flexibleSpace: FlexibleSpaceBar(
                       title: Text(
@@ -87,7 +88,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   delegate: SliverChildListDelegate(
                     [
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -113,7 +114,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               children: [
                                 ...details.genres.map(
                                   (item) => Padding(
-                                    padding: const EdgeInsets.all(4.0),
+                                    padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 4.w),
                                     child: Text(
                                       item,
                                       style: const TextStyle(
@@ -124,11 +125,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 ),
                               ],
                             ),
-                            const Text(
+                            Text(
                               'Description',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 20,
+                                fontSize: 20.sp,
                                 decoration: TextDecoration.underline,
                               ),
                             ),
@@ -136,10 +137,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               details.overview,
                               textAlign: TextAlign.justify,
                             ),
-                            const Text(
+                            Text(
                               'Youtube trailer',
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 20.sp,
                                 fontWeight: FontWeight.bold,
                                 decoration: TextDecoration.underline,
                               ),
@@ -153,11 +154,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 handleColor: Colors.red,
                               ),
                             ),
-                            const Text(
+                            Text(
                               'Similar Movies',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 20,
+                                fontSize: 20.sp,
                                 decoration: TextDecoration.underline,
                               ),
                             ),

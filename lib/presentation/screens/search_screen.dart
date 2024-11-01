@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/data/api_service/api_client.dart';
 import 'package:movies_app/data/repositories_impl/repository_impl.dart';
 import 'package:movies_app/domain/models/search/movie_in_search.dart';
@@ -34,7 +35,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/core/utils/app_theme.dart';
 import 'package:movies_app/core/utils/my_bloc_observer.dart';
 import 'package:movies_app/data/api_service/api_client.dart';
@@ -22,19 +23,34 @@ class MyApp extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
+    final height = MediaQuery.sizeOf(context).height;
     final repository = RepositoryImpl(ApiClient());
-    return MaterialApp(
-        title: 'Movie App',
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.lightTheme,
-        darkTheme: AppTheme.darkTheme,
-        home: MultiBlocProvider(
-          providers: [
-            BlocProvider(create: (_)=> AppCubit(repository)),
-            BlocProvider(create: (_)=> MainScreenCubit(HomeUsecase(repository))..getHomeData()),
-            BlocProvider(create: (_)=> MoviesListCubit(GetMoviesUsecase(repository))..getMoviesListData()),
-          ],
-          child: const MainApp(),
-        ));
+    return ScreenUtilInit(
+      designSize: Size(width, height),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (_, child) {
+        return MaterialApp(
+          title: 'Movie App',
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          home: child,
+        );
+      },
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (_) => AppCubit(repository)),
+          BlocProvider(
+              create: (_) =>
+                  MainScreenCubit(HomeUsecase(repository))..getHomeData()),
+          BlocProvider(
+              create: (_) => MoviesListCubit(GetMoviesUsecase(repository))
+                ..getMoviesListData()),
+        ],
+        child: const MainApp(),
+      ),
+    );
   }
 }

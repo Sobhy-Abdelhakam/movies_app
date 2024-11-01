@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MovieItemDesign extends StatelessWidget {
   final String movieTitle;
@@ -10,22 +11,22 @@ class MovieItemDesign extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(8),
-      padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(4)),
+      margin: EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
+      padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 4.w),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(4.r)),
       child: GridTile(
         footer: Container(
           color: Colors.black38,
           alignment: Alignment.bottomCenter,
-          padding: const EdgeInsets.symmetric(
-            horizontal: 5,
-            vertical: 10,
+          padding: EdgeInsets.symmetric(
+            horizontal: 5.w,
+            vertical: 10.h,
           ),
           child: Text(
             movieTitle,
-            style: const TextStyle(
+            style: TextStyle(
               color: Colors.white,
-              fontSize: 16,
+              fontSize: 16.sp,
               fontWeight: FontWeight.bold,
             ),
             overflow: TextOverflow.ellipsis,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movies_app/domain/business_logic/cubit/main_screen_cubit.dart';
 import 'package:movies_app/domain/business_logic/cubit/main_screen_state.dart';
 import 'package:movies_app/presentation/widgets/movie_item_Design.dart';
@@ -31,23 +32,21 @@ class MainScreen extends StatelessWidget {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    mainResponseItem.title,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  Text(mainResponseItem.title,
+                      style: TextStyle(
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.bold,
+                      )),
                   SizedBox(
                     height:
-                        200, // Provide a fixed height for the horizontal list
+                        200.w, // Provide a fixed height for the horizontal list
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: mainResponseItem.movies.length,
                       itemBuilder: (context, index) {
                         var movie = mainResponseItem.movies[index];
                         return SizedBox(
-                          width: 120,
+                          width: 120.w,
                           child: InkWell(
                             onTap: () {
                               Navigator.push(

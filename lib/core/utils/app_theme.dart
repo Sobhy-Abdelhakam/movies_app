@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppTheme {
   static final ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
     useMaterial3: true,
     primaryColor: Colors.blueGrey,
+    textTheme: TextTheme(bodyMedium: TextStyle(fontSize: 16.sp)),
     // accentColor: Colors.amber,
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.blueGrey,
